@@ -10,8 +10,7 @@ int main()
     enum METHODS method;
     int Max_Level, level;
 	float alpha;
-   
-    // This part must be updated if a new algorithm is added. 
+	
     printf("1 --> Breast-First Search\n");
     printf("2 --> Uniform-Cost Search\n");
     printf("3 --> Depth-First Search\n");
@@ -31,16 +30,16 @@ int main()
 	    scanf("%f", &alpha);                  
 	}   
     
-    // Creating the root node ... 
+   
     root.parent    = NULL;
     root.path_cost = 0;
-    root.action    = NO_ACTION; // The program will not use this part. (NO_ACTION-->0)
+    root.action    = NO_ACTION; 
     root.Number_of_Child = 0;
     	
     printf("======== SELECTION OF INITIAL STATE =============== \n");
     root.state     = *(Create_State());
     
-    if(PREDETERMINED_GOAL_STATE)  // User will determine the goal state if it is true
+    if(PREDETERMINED_GOAL_STATE)  
     {
 	    printf("======== SELECTION OF GOAL STATE =============== \n"); 
 	    goal_state = Create_State();
