@@ -3,12 +3,11 @@
 
 #include "data_types.h"
 
-// ========  YOUR COMPULSORY (BUT SPECIFIC TO THE PROBLEM) COMMANDS ============
 #define HASH_TABLE_BASED_SIZE 25
 #define HASH_TABLE_INCREASING_RATE 30
 #define MAX_KEY_SIZE 10
 
-// ================== YOU DO NOT NEED TO CHANGE THIS PART ======================
+
 typedef struct {
     unsigned int size;
     unsigned int count;
@@ -16,11 +15,9 @@ typedef struct {
 } Hash_Table;
 
 
-// =========  YOUR COMPULSORY (BUT SPECIFIC TO THE PROBLEM) DECLARATIONS =======
+
 void Generate_HashTable_Key(const State *const state, unsigned char* key);
 
-
-// ======= YOU DO NOT NEED TO CHANGE THIS COMPULSORY DECLARATIONS ==============
 Hash_Table* New_Hash_Table(const int size);
 void Resize_Hash_Table(Hash_Table *ht, const int size);
 void Delete_Hash_Table(Hash_Table *ht);
