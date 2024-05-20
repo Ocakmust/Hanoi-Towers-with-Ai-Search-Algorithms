@@ -8,10 +8,6 @@
 #include <math.h>
 
 
-
-// =========  YOUR COMPULSORY (BUT SPECIFIC TO THE PROBLEM) FUNCTIONS =======
-
-//___________________ Create unique char key for each state______________________
 void Generate_HashTable_Key(const State *const state, unsigned char* key) {
   unsigned long long hash = 0;
   
@@ -19,25 +15,21 @@ void Generate_HashTable_Key(const State *const state, unsigned char* key) {
     for (int j = 0; j < 8; j++) {
       int disk = state->hanoi_towers[i][j];
       if (disk != 0) {
-        // Her diskin değerini ve pozisyonunu hash değerine dahil et
         hash = (hash * 31 + disk) * 17 + (i * 8 + j);
       }
     }
   }
 
-  // Hash değerini 3 bayta böl
-  key[0] = (unsigned char)(hash); // En düşük anlamlı bayt
+
+  key[0] = (unsigned char)(hash); 
   key[1] = (unsigned char)(hash%10);
   key[2] = (unsigned char)(hash/10);
   key[3] = (unsigned char)(hash%31);
   key[4] = (unsigned char)(hash%7);
-  key[5] = '\0'; // Null sonlandırıcı
+  key[5] = '\0';
 }
 
 
-// ======= YOU DO NOT NEED TO CHANGE THIS COMPULSORY DECLARATIONS ==============
-
-//___________________ Determine whether x is prime or not______________________
 static int is_prime(const unsigned int x) {
 	int i;
 	
@@ -52,7 +44,7 @@ static int is_prime(const unsigned int x) {
 	return TRUE; 	   
 }
 
- //________ Return the next prime after x, or x if x is prime_________________
+ 
 static unsigned next_prime(unsigned int x) {
     while (is_prime(x) == FALSE) {
         x++;
@@ -60,7 +52,6 @@ static unsigned next_prime(unsigned int x) {
     return x;
 }
 
-//___________________ Hash Function __________________________________
 static unsigned int hash_func(const char* key, const int size) {
     unsigned int hash = 0, i;
     // a should be a prime number larger than the size of the alphabet
@@ -75,7 +66,6 @@ static unsigned int hash_func(const char* key, const int size) {
     return hash;
 }
 
-//___________________ Create new Hash Table______________________
 Hash_Table* New_Hash_Table(const int size) {      
     Hash_Table* ht = (Hash_Table*)malloc(sizeof(Hash_Table));
     if(ht==NULL)
@@ -92,7 +82,6 @@ Hash_Table* New_Hash_Table(const int size) {
     return ht;
 }
 
-//___________________ Insert __________________________________
 void ht_insert(Hash_Table *ht, const State *const state) {
     char key[MAX_KEY_SIZE];    
     	
@@ -130,7 +119,7 @@ void ht_insert_key(Hash_Table *ht, const char *key) {
     ht->count++;
 }
 
-//___________________ Search __________________________________
+
 int ht_search(Hash_Table *ht, const State *const state) {
 	char key[MAX_KEY_SIZE]; 
     unsigned int first_index, index;
@@ -157,7 +146,6 @@ int ht_search(Hash_Table *ht, const State *const state) {
     return FALSE;   
 }
 
-//________ Resize Hash Table ___________________________________
 void Resize_Hash_Table(Hash_Table* ht, const int size) {
 	int i;
 	unsigned int temp_size, temp_count;
@@ -171,17 +159,17 @@ void Resize_Hash_Table(Hash_Table* ht, const int size) {
         }
     }
 
-    // swap size
+  
     temp_size    = ht->size;
     ht->size     = new_ht->size;
     new_ht->size = temp_size;
     
-    // swap count
+ 
     temp_count    = ht->count;
     ht->count     = new_ht->count;
     new_ht->count = temp_count;
     
-    // swap keys
+   
     temp_key          = ht->State_Key;
     ht->State_Key     = new_ht->State_Key;
     new_ht->State_Key = temp_key;
@@ -189,7 +177,7 @@ void Resize_Hash_Table(Hash_Table* ht, const int size) {
     Delete_Hash_Table(new_ht);
 }
 
-//________ Delete Hash Table ___________________________________
+
 void Delete_Hash_Table(Hash_Table *ht)
 {
 	int i;
@@ -203,7 +191,7 @@ void Delete_Hash_Table(Hash_Table *ht)
     free(ht);  
 }
 
-//___________________ Show hash table __________________________________
+
 void Show_Hash_Table(Hash_Table *ht) {
     unsigned int i;
     
