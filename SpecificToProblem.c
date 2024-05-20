@@ -1,10 +1,4 @@
-/* 
-    These functions are compulsory for search algorithms but they are specific
-    to problems. More clearly, you must must update their blocks but do not change
-    their input and output parameters.
-    
-    Also, you can add new functions at the end of file by declaring them in GRAPH_SEARCH.h
-*/
+
 
 #include "GRAPH_SEARCH.h"
 #include "data_types.h"
@@ -12,7 +6,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-//______________________________________________________________________________
+
 State* Create_State()
 {
 	State *state = (State*)malloc(sizeof(State));
@@ -48,7 +42,6 @@ State* Create_State()
     return state;    
 }
 
-//______________________________________________________________________________
 void Print_State(const State *const state) {
     printf("Hanoi Towers State:\n");
     for (int i = 0; i < 3; i++) {
@@ -60,7 +53,7 @@ void Print_State(const State *const state) {
     }
 }
 
-//______________________________________________________________________________
+
 void Print_Action(const enum ACTIONS action)
 {
 	switch(action)
@@ -79,7 +72,7 @@ void Print_Action(const enum ACTIONS action)
 			printf("3 to 2"); break;
 	}
 }
-//______________________________________________________________________________
+
 int Result(const State *const parent_state, const enum ACTIONS action, Transition_Model *const trans_model) {
     State new_state;
     int k,l;
@@ -104,10 +97,10 @@ int Result(const State *const parent_state, const enum ACTIONS action, Transitio
 		case  third_tosecond:   
 			taken_from = 2; put_into = 1; break;
 		default:
-			return FALSE; // Geçersiz action değeri
+			return FALSE; 
 	}
 
-    // Hedef kule boş değilse ve taşınacak disk hedef kuledeki diskten büyükse veya kaynak kule boşsa
+
     if ((find_last(&new_state, put_into) != 0 && 
         (find_last(&new_state, taken_from) > find_last(&new_state, put_into) || find_last_index(&new_state, taken_from) == -1)) ||
         // Hedef kule boşsa ve kaynak kule de boşsa
@@ -115,7 +108,7 @@ int Result(const State *const parent_state, const enum ACTIONS action, Transitio
         return FALSE;
     }
 
-    // Geçerli hareketi uygula
+
     new_state.hanoi_towers[put_into][find_last_index(&new_state, put_into) + 1] = 
         new_state.hanoi_towers[taken_from][find_last_index(&new_state, taken_from)];
     new_state.hanoi_towers[taken_from][find_last_index(&new_state, taken_from)] = 0;
@@ -144,7 +137,7 @@ float Compute_Heuristic_Function(const State *const state, const State *const go
 
   return heuristic;
 }
-//_______________ Update if your goal state is not determined initially ___________________________________
+
 int Goal_Test(const State *const state, const State *const goal_state)
 {
 	if(PREDETERMINED_GOAL_STATE)	
@@ -153,7 +146,7 @@ int Goal_Test(const State *const state, const State *const goal_state)
 		return 1;
 }
 
-// ==================== WRITE YOUR OPTIONAL FUNCTIONS (IF REQUIRED) ==========================
+
 
 int find_last_index(State *state,int pos) {
     int counter = 0;
