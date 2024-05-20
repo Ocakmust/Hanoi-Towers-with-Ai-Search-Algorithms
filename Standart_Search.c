@@ -1,11 +1,4 @@
-/* 
-    These functions are standard for graph search algorithms and you do not need to
-    change them for different search problems.
-    
-    However, if you insert the generalized A* algorithm, 
-	        you should update First_InsertFrontier_Search_TREE()
-			              and Insert_Priority_Queue_GENERALIZED_A_Star(),  which is similar to Insert_Priority_Queue_A_Star()    
-*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -24,7 +17,7 @@ Node* First_InsertFrontier_Search_TREE(const enum METHODS method, Node *const ro
     Queue *frontier;
     Hash_Table *explorer_set;
 	
-	// a priority queue ordered by PATH-COST(or evaluation function f), with node as the only element		  
+	  
     frontier = Start_Frontier(root);  
 	Print_Frontier(frontier);	
     
@@ -38,7 +31,6 @@ Node* First_InsertFrontier_Search_TREE(const enum METHODS method, Node *const ro
                                    
         node = Pop(&frontier); 
         
-		// GOAL-TEST
 		Number_Searched_Nodes++;
 		if(Goal_Test(&(node->state), goal_state) ){
 			printf("\nThe number of searched nodes is : %d\n", Number_Searched_Nodes);
@@ -69,7 +61,7 @@ Node* First_InsertFrontier_Search_TREE(const enum METHODS method, Node *const ro
 					    if(temp_node!=NULL){
 							if(child->path_cost < temp_node->path_cost) // child.STATE has been in frontier with higher cost
 								Remove_Node_From_Frontier(temp_node, &frontier);
-							else // child.STATE has already been in frontier with lower cost 
+							else 
 							    continue;		
 						}  
                         Insert_Priority_Queue_UniformSearch(child, &frontier); break;
@@ -77,13 +69,13 @@ Node* First_InsertFrontier_Search_TREE(const enum METHODS method, Node *const ro
                     	if(temp_node!=NULL){
 							if(child->path_cost + child->state.h_n < temp_node->path_cost + temp_node->state.h_n) // child.STATE has been in frontier with higher cost
 								Remove_Node_From_Frontier(temp_node, &frontier);	
-							else // child.STATE has already been in frontier with lower cost 
+							else 
 							    continue;	
 						} 
                         child->state.h_n = Compute_Heuristic_Function(&(child->state), goal_state); 
                         Insert_Priority_Queue_A_Star(child, &frontier); break; 
 					case GeneralizedAStarSearch:
-						// ALPHA VALUE ADDED
+						
 							if(temp_node != NULL) {
 								if(child->path_cost + alpha * child->state.h_n < temp_node->path_cost + alpha * temp_node->state.h_n) // child.STATE has been in frontier with higher cost
 									Remove_Node_From_Frontier(temp_node, &frontier);
@@ -111,15 +103,15 @@ Node* First_InsertFrontier_Search_TREE(const enum METHODS method, Node *const ro
 //______________________________________________________________________________
 Node* First_GoalTest_Search_TREE(const enum METHODS method, Node *const root, State *const goal_state)
 {
-    int Number_Searched_Nodes  = 0;  // The number of nodes passing goal test
-	int Number_Generated_Nodes = 1;  // The number of generated nodes (The first one is the root)  
-	int Number_Allocated_Nodes = 1;  // The number of nodes in memory (The first one is the root)
+    int Number_Searched_Nodes  = 0;  
+	int Number_Generated_Nodes = 1;  
+	int Number_Allocated_Nodes = 1;  
 	enum ACTIONS action;
     Node *node, *child; 
     Queue *frontier;
     Hash_Table *explorer_set; 
 	
-	// GOAL-TEST
+
 	Number_Searched_Nodes++;
     if(Goal_Test(&(root->state), goal_state) ){
         printf("\nThe number of searched nodes is : %d\n", Number_Searched_Nodes);
@@ -153,9 +145,9 @@ Node* First_GoalTest_Search_TREE(const enum METHODS method, Node *const root, St
 				Number_Allocated_Nodes++;
 						
 				if(ht_search(explorer_set, &(child->state)) || Frontier_search(frontier, &(child->state))!=NULL)
-					continue; // child.STATE is in explored set or frontier		
+					continue; 
 	
-            	// GOAL-TEST 	
+	
 				Number_Searched_Nodes++;
 			    if(Goal_Test(&(child->state), goal_state) ){		    
 			        printf("\nThe number of searched nodes is : %d\n", Number_Searched_Nodes);
@@ -190,15 +182,15 @@ Node* First_GoalTest_Search_TREE(const enum METHODS method, Node *const root, St
 //______________________________________________________________________________
 Node* DepthType_Search_TREE(const enum METHODS method, Node *const root, State *const goal_state, const int Max_Level)
 {
-    static int Number_Searched_Nodes  = 0;  // The number of nodes passing goal test
-	static int Number_Generated_Nodes = 1;  // The number of generated nodes (The first one is the root) 
-	static int Number_Allocated_Nodes = 1;  // The number of nodes in memory (The first one is the root)   
+    static int Number_Searched_Nodes  = 0;  
+	static int Number_Generated_Nodes = 1;  
+	static int Number_Allocated_Nodes = 1;   
 	enum ACTIONS action;
     Node *node, *child; 
     Queue *frontier;
     Hash_Table *explorer_set; 
 	
-	// GOAL-TEST
+	
 	Number_Searched_Nodes++;
     if(Goal_Test(&(root->state), goal_state) ){
         printf("\nThe number of searched nodes is : %d\n", Number_Searched_Nodes);
@@ -240,10 +232,10 @@ Node* DepthType_Search_TREE(const enum METHODS method, Node *const root, State *
 			    Number_Allocated_Nodes++;
 				
 				if(ht_search(explorer_set, &(child->state)) || Frontier_search(frontier, &(child->state))!=NULL){
-					Clear_Single_Branch(child, &Number_Allocated_Nodes); // if child.STATE is in explored set or frontier
+					Clear_Single_Branch(child, &Number_Allocated_Nodes); 
 				} 				
 				else{
-					// GOAL-TEST
+					
 					Number_Searched_Nodes++;
 				    if(Goal_Test(&(child->state), goal_state) ){
 
@@ -259,7 +251,7 @@ Node* DepthType_Search_TREE(const enum METHODS method, Node *const root, State *
 				}										   
             }
 			
-			if(action==ACTIONS_NUMBER-1 && node->Number_of_Child==0) // If node has not child, clear it
+			if(action==ACTIONS_NUMBER-1 && node->Number_of_Child==0) 
 				Clear_All_Branch(node, &Number_Allocated_Nodes);	            
 		}
 		    
@@ -344,7 +336,7 @@ void Insert_FIFO(Node *const child, Queue **frontier)
 	 
     if(Empty(*frontier))
 	 	*frontier = new_queue; 
-	else{ // If frontier is not empty, find the last element of the queue.  
+	else{ 
 		for(temp_queue = *frontier; temp_queue->next!= NULL; temp_queue = temp_queue->next);
 	    temp_queue->next = new_queue;		
 	}   
@@ -377,8 +369,8 @@ void Insert_Priority_Queue_UniformSearch(Node *const child, Queue **frontier)
          new_queue->next = NULL;                 
 	 	*frontier = new_queue; 
     }
-	else{ // If frontier is not empty, find appropriate element according to ordered cost. 
-	    if(child->path_cost<(*frontier)->node->path_cost){ // Child has lowest cost
+	else{ 
+	    if(child->path_cost<(*frontier)->node->path_cost){ 
 	        new_queue->next = *frontier;
             *frontier = new_queue; 
         }
@@ -389,7 +381,7 @@ void Insert_Priority_Queue_UniformSearch(Node *const child, Queue **frontier)
                     temp_queue->next = new_queue;
                     return;
                 }                                              
-            } //If child has highest cost
+            } 
             temp_queue->next = new_queue;  
             new_queue->next = NULL;                       
         } 		
@@ -410,7 +402,7 @@ void Insert_Priority_Queue_GreedySearch(Node *const child, Queue **frontier)
          new_queue->next = NULL;                 
 	 	*frontier = new_queue; 
     }
-	else{ // If frontier is not empty, find appropriate element according to ordered cost. 
+	else{ 
 	    if(child->state.h_n < (*frontier)->node->state.h_n){ // Child has lowest cost
 	        new_queue->next = *frontier;
             *frontier = new_queue; 
@@ -422,7 +414,7 @@ void Insert_Priority_Queue_GreedySearch(Node *const child, Queue **frontier)
                      temp_queue->next = new_queue;
                      return;
                 }                                              
-            } //If child has highest cost
+            } 
             temp_queue->next = new_queue;  
             new_queue->next = NULL;                       
         } 		
@@ -443,8 +435,8 @@ void Insert_Priority_Queue_A_Star(Node *const child, Queue **frontier)
         new_queue->next = NULL;                 
 	 	*frontier = new_queue; 
     }
-	else{ // If frontier is not empty, find appropriate element according to ordered evaluation function values. 
-	    if(child->path_cost + child->state.h_n < (*frontier)->node->path_cost + (*frontier)->node->state.h_n) { // Child has the lowest cost evaluation function value
+	else{ 
+	    if(child->path_cost + child->state.h_n < (*frontier)->node->path_cost + (*frontier)->node->state.h_n) { 
 	        new_queue->next = *frontier;
             *frontier = new_queue; 
         }
@@ -455,7 +447,7 @@ void Insert_Priority_Queue_A_Star(Node *const child, Queue **frontier)
                      temp_queue->next = new_queue;
                      return;
                 }                                              
-            } //If child has the highest evaluation function value
+            } 
             temp_queue->next = new_queue;  
             new_queue->next = NULL;                       
         } 		
@@ -478,11 +470,11 @@ void Insert_Priority_Queue_GENERALIZED_A_Star(Node *const child, Queue **frontie
 		new_queue->next = NULL;
 		*frontier = new_queue;
 	}
-	else { // If frontier is not empty, find appropriate element according to ordered evaluation function values.
+	else { 
 		float child_evaluation = child->path_cost + alpha * child->state.h_n;
 		float frontier_evaluation = (*frontier)->node->path_cost + alpha * (*frontier)->node->state.h_n;
 
-		if(child_evaluation < frontier_evaluation) { // Child has the lowest evaluation function value
+		if(child_evaluation < frontier_evaluation) { 
 			new_queue->next = *frontier;
 			*frontier = new_queue;
 		}
@@ -494,7 +486,7 @@ void Insert_Priority_Queue_GENERALIZED_A_Star(Node *const child, Queue **frontie
 					temp_queue->next = new_queue;
 					return;
 				}
-			} //If child has the highest evaluation function value
+			} 
 			temp_queue->next = new_queue;
 			new_queue->next = NULL;
 		}
@@ -515,15 +507,15 @@ void Print_Frontier(Queue *const frontier)
 	printf(" ]\n");   			
 }
 
-//_______________ Remove the node old_child from the frontier__________
+
 void Remove_Node_From_Frontier(Node *const old_child, Queue **const frontier) 
 {  
     Queue *curr_queue, *prev_queue;  
  
 	for(curr_queue = *frontier; curr_queue!= NULL; curr_queue = curr_queue->next){
 		if(curr_queue->node == old_child){
-	    	//Remove the old child
-	    	if(curr_queue==*frontier)  // for the first node
+	    	
+	    	if(curr_queue==*frontier) 
 	    	   	*frontier = curr_queue->next;
 			else
 				prev_queue->next = curr_queue->next; 
@@ -618,7 +610,7 @@ void Clear_All_Branch(Node *node, int *Number_Allocated_Nodes)
     	
     Clear_Single_Branch(node, Number_Allocated_Nodes);
     
-    if(parent->Number_of_Child==0) // Clear nodes having no child. 
+    if(parent->Number_of_Child==0) 
     	Clear_All_Branch(parent, Number_Allocated_Nodes);
 }
 
